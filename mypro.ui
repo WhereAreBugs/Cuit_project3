@@ -13,6 +13,17 @@
   <property name="windowTitle">
    <string>MyPro</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+	background-image: url(:/images/2.jpeg);
+}
+QPushButton#pushButton {
+	
+	color: rgb(255, 21, 0);
+	border-color: rgb(7, 255, 0);
+	selection-color: rgb(177, 166, 255);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
@@ -22,6 +33,9 @@
       <width>100</width>
       <height>32</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>按钮1</string>
@@ -49,8 +63,11 @@
       <height>32</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));</string>
+    </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>按钮3</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
@@ -90,6 +107,45 @@
     </property>
     <property name="echoMode">
      <enum>QLineEdit::Password</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_clor">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>20</y>
+      <width>111</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>L2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_movie">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>150</y>
+      <width>101</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LM</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="extern_2">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>300</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Simple</string>
     </property>
    </widget>
   </widget>

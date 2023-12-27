@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
         mypro.cpp
         mypro.h
         mypro.ui
+        base.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
