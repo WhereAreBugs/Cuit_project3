@@ -18,11 +18,14 @@ public:
     ~MyPro();
 
 signals:
-    void send();
+    void button1_clicked();
+    void button2_clicked();
+    void button3_clicked();
 
 public slots:
-    void send_submit();
-    void receive();
+    void on_button1_clicked();
+    void on_button2_clicked();
+    void on_button3_clicked();
 
 private:
     Ui::MyPro *ui;

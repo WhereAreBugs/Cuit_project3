@@ -6,24 +6,30 @@ MyPro::MyPro(QWidget *parent)
     , ui(new Ui::MyPro)
 {
     ui->setupUi(this);
-    // 将槽函数与信号关联
-    connect(this, SIGNAL(send()), this, SLOT(receive()));
-    connect(ui->pushButton, &QPushButton::clicked, this, &MyPro::send_submit);
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_button1_clicked()));
+    connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(on_button2_clicked()));
+    connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(on_button3_clicked()));
 }
 
 MyPro::~MyPro()
 {
     delete ui;
 }
-void MyPro::send_submit()
-{
-    qDebug() << "send_submit";
-    emit send();
-}
-void MyPro::receive()
-{
-    qDebug() << "receive OK";
-    ui->label->setText("receive OK");
+
+void MyPro::on_button1_clicked() {
+    qDebug() << "button1 clicked";
+    ui->label_CUIT->setText("我爱成信工");
 }
 
+void MyPro::on_button2_clicked() {
+    qDebug() << "button2 clicked";
+    ui->lineEdit->setEchoMode(QLineEdit::Password);
+    ui->lineEdit->setText("123456");
+}
+
+void MyPro::on_button3_clicked() {
+    qDebug() << "button3 clicked";
+    ui->progressBar->setRange(0,100);
+    ui->progressBar->setValue(60);
+}
 
