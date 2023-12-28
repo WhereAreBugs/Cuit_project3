@@ -21,8 +21,14 @@ signals:
     void button1_clicked();
 
 public slots:
-    void on_button1_clicked();
-
+    void on_cal_clicked(const QDate &date);
+    void on_timeDate_set_clicked();
+    void on_date_set_clicked();
+    void on_time_set_clicked();
+    void on_timer_tiggered();
+    void on_getDateButton_clicked();
+    void on_getTimeButton_clicked();
+    void on_getDateTimeButton_clicked();
 private:
     Ui::MyPro *ui;
 };

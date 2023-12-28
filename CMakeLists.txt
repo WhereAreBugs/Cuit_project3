@@ -20,9 +20,6 @@ set(PROJECT_SOURCES
         mypro.h
         mypro.ui
         base.qrc
-        loginresult.cpp
-        loginresult.h
-        loginresult.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
