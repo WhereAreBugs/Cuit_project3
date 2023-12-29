@@ -3,5 +3,9 @@
         <file>images/1.png</file>
         <file>images/2.jpeg</file>
         <file>images/3.gif</file>
+        <file>images/4.jpeg</file>
+        <file>images/5.jpeg</file>
+        <file>images/6.png</file>
+        <file>images/7.png</file>
     </qresource>
 </RCC>

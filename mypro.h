@@ -2,7 +2,16 @@
 #define MYPRO_H
 
 #include <QMainWindow>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QTimer>
+#include <QDateTime>
+#include <QSqlQueryModel>
+#include <QLabel>
 
+#include "devtool.h"
+#include "selectdata.h"
+#include "drawgraph.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MyPro;
@@ -17,19 +26,37 @@ public:
     MyPro(QWidget *parent = nullptr);
     ~MyPro();
 
-signals:
-    void button1_clicked();
 
 public slots:
-    void on_cal_clicked(const QDate &date);
-    void on_timeDate_set_clicked();
-    void on_date_set_clicked();
-    void on_time_set_clicked();
-    void on_timer_tiggered();
-    void on_getDateButton_clicked();
-    void on_getTimeButton_clicked();
-    void on_getDateTimeButton_clicked();
-private:
+
+private://pointers
     Ui::MyPro *ui;
+    QSqlDatabase *pDatabase = nullptr;
+    QTimer *timer1_1sec = nullptr;
+    QTimer * timer2_tempAndHumGen = nullptr;
+    selectData *pSelectData = nullptr;
+    QSqlQueryModel * model = nullptr;
+    QString LCDStyleSheet = nullptr;
+    devTool *pDevTool = nullptr;
+    QTimer * timer3_updateTreeView = nullptr;
+    QTimer * timer4_light = nullptr;
+    QTimer * settingsCheckTimer = nullptr;
+    DrawGraph * pDrawGraphs = nullptr;
+    QMovie * pMovie = nullptr;
+private://helpers
+    bool SQLUpdate = false;
+    bool SrcUpdate = false;
+    void lightTimerCallback();
+private: //业务成员变量
+    float temprature;
+    float humidity;
+    QDateTime eventTimeNow;
+private://帮助函数
+    void updateTreeView();
+    void ledSet(QLabel* label, int color, int size);
+    void ledUnset(QLabel* label, int size);
+    friend class devTool;
+private:
+    void updateSrcUpdateTimeMs(uint64_t ms);
 };
 #endif // MYPRO_H
