@@ -36,6 +36,7 @@ public:
         AutoSaveModeALL = -5
     };
     AutoSaveMode getAutoSaveMode() const{return autoSaveMode;}
+    bool getDataSource() const;
 private:
 
     Ui::devTool *ui;

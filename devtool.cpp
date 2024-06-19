@@ -140,3 +140,7 @@ void devTool::enableExtraSetting() {
     ui->humMinCus->show();
     ui->humMaxCus->show();
 }
+
+bool devTool::getDataSource() const {
+    return ui->isSerial->isChecked();
+}

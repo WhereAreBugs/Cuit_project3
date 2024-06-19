@@ -1,5 +1,6 @@
 #include "mypro.h"
 #include "./ui_mypro.h"
+#include "devicecontroler.h"
 #include <QMovie>
 #include <QGraphicsOpacityEffect>
 #include <QDateTime>
@@ -10,9 +11,7 @@
 #pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 
 MyPro::MyPro(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MyPro)
-{
+        : QMainWindow(parent), ui(new Ui::MyPro) {
     setWindowTitle("物联网信息查询系统");
     ui->setupUi(this);
     //初始化背景
@@ -37,11 +36,11 @@ MyPro::MyPro(QWidget *parent)
     ui->timeShow->setStyleSheet("QLCDNumber {"
                                 "border: 2px solid rgb(255, 170, 0);"
                                 "border-radius: 10px;"
-//                                "color: rgb(255, 170, 0);"
+                                //                                "color: rgb(255, 170, 0);"
                                 "}"); // 设置时钟的样式
     timer1_1sec = new QTimer(this);
     timer1_1sec->setInterval(std::chrono::seconds(1));
-    connect(timer1_1sec, &QTimer::timeout, this, [=](){
+    connect(timer1_1sec, &QTimer::timeout, this, [=]() {
         QDateTime time = QDateTime::currentDateTime();
         QString str = time.toString("hh:mm:ss");
         ui->timeShow->display(str);
@@ -57,82 +56,64 @@ MyPro::MyPro(QWidget *parent)
     // 初始化温度和湿度数据源
     timer2_tempAndHumGen = new QTimer(this);
     timer2_tempAndHumGen->setInterval(500);
-    connect(timer2_tempAndHumGen, &QTimer::timeout, this, [=](){
-        SrcUpdate = true;
-        ledSet(ui->light_source, Qt::blue, 15);
-        if (!timer4_light->isActive())
-            timer4_light->start();
+    connect(timer2_tempAndHumGen, &QTimer::timeout, this, [=]() {
+        if (!pDevTool->getDataSource()) {
+            SrcUpdate = true;
+            ledSet(ui->light_source, Qt::blue, 15);
+            if (!timer4_light->isActive())
+                timer4_light->start();
 
-        temprature = QRandomGenerator::global()->
-                bounded(static_cast<int>(pDevTool->getTempratureMin()),
-                        static_cast<int>(pDevTool->getTempratureMax()));
-        humidity = QRandomGenerator::global()->
-                bounded(static_cast<int>(pDevTool->getHumidityMin()),
-                        static_cast<int>(pDevTool->getHumidityMax()));
-        eventTimeNow = QDateTime::currentDateTime();
-        // 显示数据
-        ui->tempratureDIsplay->display(temprature);
-        ui->humityDisplay->display(humidity);
-        // 显示数据完成
-        // 检查数据范围，并分范围设置不同的颜色
-        if (temprature < 20) {
-            ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 64, 255);}");
-            ui->tempInd->setStyleSheet("QLabel {"
-                                       "color: rgb(0, 64, 255);" // 蓝色
-                                       "}");
-            ui->tempInd->setText("温度过低");
-        } else if (temprature < 30) { //改用深绿色
-            ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 0, 0);}");
-            ui->tempInd->setStyleSheet("QLabel {"
-                                        "color: rgb(0, 0, 0);"
-                                       "}");
-            ui->tempInd->setText("温度正常");
-        } else {
-            ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(255, 0, 0);}");
-            ui->tempInd->setStyleSheet("QLabel {"
-                                       "color: rgb(255, 0, 0);" // 红色
-                                       "}");
-            ui->tempInd->setText("温度过高");
-        }
-        if (humidity < 30) {
-//            ui->tempInd->setText(ui->tempInd->text()+", 湿度过低");
-            ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 64, 255);}");
-        } else if (humidity < 60) {
-//            ui->tempInd->setText(ui->tempInd->text()+", 湿度正常");
-            ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 0, 0);}");
-        } else {
-//            ui->tempInd->setText(ui->tempInd->text()+", 湿度过高");
-            ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(255, 0, 0);}");
-        }
-        if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnNotOK)
-        {
-            if (humidity < 30 || humidity > 60 || temprature < 20 || temprature > 30)
+            temprature = QRandomGenerator::global()->
+                    bounded(static_cast<int>(pDevTool->getTempratureMin()),
+                            static_cast<int>(pDevTool->getTempratureMax()));
+            humidity = QRandomGenerator::global()->
+                    bounded(static_cast<int>(pDevTool->getHumidityMin()),
+                            static_cast<int>(pDevTool->getHumidityMax()));
+            eventTimeNow = QDateTime::currentDateTime();
+            // 显示数据
+            ui->tempratureDIsplay->display(temprature);
+            ui->humityDisplay->display(humidity);
+            // 显示数据完成
+            if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnNotOK) {
+                if (humidity < 30 || humidity > 60 || temprature < 20 || temprature > 30)
+                    ui->recordButton->click();
+            } else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnHIGH) {
+                if (humidity > 60 || temprature > 30)
+                    ui->recordButton->click();
+            } else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnLow) {
+                if (humidity < 30 || temprature < 20)
+                    ui->recordButton->click();
+            } else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeALL) {
                 ui->recordButton->click();
+            }
         }
-        else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnHIGH)
-        {
-            if (humidity > 60 || temprature > 30)
-                ui->recordButton->click();
-        }
-        else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnLow)
-        {
-            if (humidity < 30 || temprature < 20)
-                ui->recordButton->click();
-        }
-        else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeALL)
-        {
-            ui->recordButton->click();
+        else{
+            timer2_tempAndHumGen->stop();
         }
     });
     timer2_tempAndHumGen->start();
+    pDeviceControler = new deviceControler();
+
+    connect(pDeviceControler,&deviceControler::deviceUpdate,this,[=](){
+        auto dev = pDeviceControler->getDeviceStatus();
+        SrcUpdate = true;
+        temprature = dev.tempVal;
+        humidity = dev.humVal;
+        ledSet(ui->light_source, Qt::blue, 15);
+        if (!timer4_light->isActive())
+            timer4_light->start();
+        ui->tempratureDIsplay->display(dev.tempVal);
+        ui->humityDisplay->display(dev.humVal);
+
+    });
     // 初始化开发者工具界面
     pDevTool = new devTool();
-    connect(ui->devloperTool, &QPushButton::clicked, this, [this](){
+    connect(ui->devloperTool, &QPushButton::clicked, this, [this]() {
         pDevTool->show();
         pDevTool->setFocus();
         settingsCheckTimer->start();
     });
-    connect(pDevTool, &devTool::destroyed, this, [=](){
+    connect(pDevTool, &devTool::destroyed, this, [=]() {
         settingsCheckTimer->stop();
     });
     // 初始化开发者工具界面完成
@@ -140,7 +121,7 @@ MyPro::MyPro(QWidget *parent)
     pSelectData = new selectData();
 
     // 设置保存按键
-    connect(ui->recordButton, &QPushButton::clicked, this, [=](){
+    connect(ui->recordButton, &QPushButton::clicked, this, [=]() {
         qDebug() << "save button clicked";
         QSqlQuery query;
         query.prepare("insert into iotData(temperature, humidity, time) values(?, ?, ?)");
@@ -153,6 +134,11 @@ MyPro::MyPro(QWidget *parent)
         updateTreeView();
     });
     // 设置保存按键完成
+    // 设置设备控制
+    connect(ui->deviceControlButton,&QPushButton::clicked, this, [=]() {
+        pDeviceControler->show();
+        pDeviceControler->setFocus();
+    });
     // 在treeview中显示数据
     model = new QSqlQueryModel(ui->databaseShow);
     model->setQuery("select id,temperature as 温度, humidity as 湿度, time as 时间 from iotData");
@@ -173,24 +159,23 @@ MyPro::MyPro(QWidget *parent)
     ui->databaseShow->setEditTriggers(QAbstractItemView::NoEditTriggers);
     // 在treeview中显示数据完成
     // 设置刷新按键
-    connect(ui->refreshDatabse, &QPushButton::clicked, this, [=](){
+    connect(ui->refreshDatabse, &QPushButton::clicked, this, [=]() {
         updateTreeView();
     });
-    connect(ui->deleteButton, &QPushButton::clicked, this, [=](){
+    connect(ui->deleteButton, &QPushButton::clicked, this, [=]() {
         auto selected = ui->databaseShow->selectionModel()->selectedRows();
-        if (selected.size() < 1)
-        {
+        if (selected.empty()) {
             qDebug() << "no line selected";
             return;
         }
         QSqlQuery query;
         QString sql = "delete from iotData where false ";
         QList<int> idList;
-        for (auto i : selected) {
+        for (auto i: selected) {
             auto line = i.row();
             auto id = model->index(line, 0).data().toInt();
             qDebug() << "delete id:" << id;
-            sql+=" or id = ?";
+            sql += " or id = ?";
             idList.append(id);
         }
         query.prepare(sql);
@@ -206,7 +191,7 @@ MyPro::MyPro(QWidget *parent)
     // 设置自动更新视图
     timer3_updateTreeView = new QTimer(this);
     timer3_updateTreeView->setInterval(std::chrono::seconds(10));
-    connect(timer3_updateTreeView, &QTimer::timeout, this, [=](){
+    connect(timer3_updateTreeView, &QTimer::timeout, this, [=]() {
         updateTreeView();
     });
     timer3_updateTreeView->start();
@@ -217,143 +202,154 @@ MyPro::MyPro(QWidget *parent)
     // 设置指示灯定时器
     timer4_light = new QTimer(this);
     timer4_light->setInterval(50);
-    connect(timer4_light, &QTimer::timeout, this, [=](){
+    connect(timer4_light, &QTimer::timeout, this, [=]() {
         lightTimerCallback();
     });
-    SQLUpdate= true;
+    SQLUpdate = true;
     SrcUpdate = true;
     timer4_light->start();
     // 启动设置检查定时器
     settingsCheckTimer = new QTimer(this);
     settingsCheckTimer->setInterval(20);
-    connect(settingsCheckTimer, &QTimer::timeout, this, [=](){
+    connect(settingsCheckTimer, &QTimer::timeout, this, [=]() {
         if (pDevTool->getDataSrcUpdateTimeMs() != timer2_tempAndHumGen->interval()) {
             updateSrcUpdateTimeMs(pDevTool->getDataSrcUpdateTimeMs());
         }
     });
-    connect(ui->fliterDataButton, &QPushButton::clicked, this, [=](){
+    connect(ui->fliterDataButton, &QPushButton::clicked, this, [=]() {
         pSelectData->show();
         pSelectData->setFocus();
     });
-    connect(ui->drawGraph, &QPushButton::clicked, this, [=](){
+    connect(ui->drawGraph, &QPushButton::clicked, this, [=]() {
         pDrawGraphs = new DrawGraph();
         pDrawGraphs->show();
         pDrawGraphs->setFocus();
     });
-    connect(pDrawGraphs, &DrawGraph::destroyed, this, [=](){
+    connect(pDrawGraphs, &DrawGraph::destroyed, this, [=]() {
         delete pDrawGraphs;
     });
     //设置顶部按钮风格样式
-    ui->fliterDataButton->setStyleSheet("QPushButton{"
-                                        "background-color: rgb(0, 11, 255);" //蓝色背景
-                                        "color: rgb(255, 255, 255);" //白色字体
-                                        "border-radius: 10px;"
-                                        "border: 2px groove gray;"
-                                        "border-style: outset;"
-                                        "}"
-                                        "QPushButton:hover{"
-                                        "background-color: rgb(85, 170, 255);" //蓝色背景
-                                        "}"
-                                        "QPushButton:pressed{"
-                                        "background-color: rgb(85, 255, 255);"
-                                        "border-style: inset;"
-                                        "}");
-    ui->refreshDatabse->setStyleSheet("QPushButton{"
-                                        "background-color: rgb(0, 11, 255);" //蓝色背景
-                                        "color: rgb(255, 255, 255);" //白色字体
-                                        "border-radius: 10px;"
-                                        "border: 2px groove gray;"
-                                        "border-style: outset;"
-                                        "}"
-                                        "QPushButton:hover{"
-                                        "background-color: rgb(85, 170, 255);" //蓝色背景
-                                        "}"
-                                        "QPushButton:pressed{"
-                                        "background-color: rgb(85, 255, 255);"
-                                        "border-style: inset;"
-                                        "}");
-    ui->recordButton->setStyleSheet("QPushButton{"
-                                    "background-color: rgb(0, 11, 255);" //蓝色背景
-                                    "color: rgb(255, 255, 255);" //白色字体
-                                    "border-radius: 10px;"
-                                    "border: 2px groove gray;"
-                                    "border-style: outset;"
-                                    "}"
-                                    "QPushButton:hover{"
-                                    "background-color: rgb(85, 170, 255);" //蓝色背景
-                                    "}"
-                                    "QPushButton:pressed{"
-                                    "background-color: rgb(85, 255, 255);"
-                                    "border-style: inset;"
-                                    "}");
-    ui->deleteButton->setStyleSheet("QPushButton{" //采用红色为主色调
-                                    "background-color: rgb(255, 0, 0);" //红色背景
-                                    "color: rgb(255, 255, 255);" //白色字体
-                                    "border-radius: 10px;"
-                                    "border: 2px groove gray;"
-                                    "border-style: outset;"
-                                    "}"
-                                    "QPushButton:hover{"
-                                    "background-color: rgb(255, 85, 127);" //深红色背景
-                                    "}"
-                                    "QPushButton:pressed{"
-                                    "background-color: rgb(255, 170, 127);"
-                                    "border-style: inset;"
-                                    "}");
-    ui->devloperTool->setStyleSheet("QPushButton{"
-                                    "background-color: rgb(0, 11, 255);" //蓝色背景
-                                    "color: rgb(255, 255, 255);" //白色字体
-                                    "border-radius: 10px;"
-                                    "border: 2px groove gray;"
-                                    "border-style: outset;"
-                                    "}"
-                                    "QPushButton:hover{"
-                                    "background-color: rgb(85, 170, 255);" //蓝色背景
-                                    "}"
-                                    "QPushButton:pressed{"
-                                    "background-color: rgb(85, 255, 255);"
-                                    "border-style: inset;"
-                                    "}");
-    ui->drawGraph->setStyleSheet("QPushButton{"
-                                 "background-color: rgb(0, 11, 255);" //蓝色背景
-                                 "color: rgb(255, 255, 255);" //白色字体
-                                 "border-radius: 10px;"
-                                 "border: 2px groove gray;"
-                                 "border-style: outset;"
-                                 "}"
-                                 "QPushButton:hover{"
-                                 "background-color: rgb(85, 170, 255);" //蓝色背景
-                                 "}"
-                                 "QPushButton:pressed{"
-                                 "background-color: rgb(85, 255, 255);"
-                                 "border-style: inset;"
-                                 "}");
-    ui->WelcomeLable->setStyleSheet("QLabel{"
-                                    "color: rgb(0, 0, 0);" //黑色字体
-                                    "font: 75 20pt \"微软雅黑\";"
-                                    "border-radius: 10px;"
-                                    "border: 2px groove gray;"
-                                    "border-style: outset;"
-                                    "border-color: rgb(255, 170, 0);"
-                                    "}");
-    pMovie = new QMovie(":/images/3.gif");
-    ui->gifPic->setMovie(pMovie);
-    pMovie->start();
-    ui->gifPic->setScaledContents(true);
-    ui->gifPic->setStyleSheet("QLabel{"
-                              "border-radius: 10px;"
-                              "border: 2px groove gray;"
-                              "border-style: outset;"
-                              "border-color: rgb(255, 170, 0);"
-                              "}");
-    ui->gifPic->setAlignment(Qt::AlignCenter);
-    ui->gifPic->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    ui->fliterDataButton->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
+    ui->refreshDatabse->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
+    ui->recordButton->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
+    ui->deleteButton->setStyleSheet(
+            "QPushButton{" //采用红色为主色调
+            "background-color: rgb(255, 0, 0);" //红色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(255, 85, 127);" //深红色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(255, 170, 127);"
+            "border-style: inset;"
+            "}");
+    ui->devloperTool->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
+    ui->deviceControlButton->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}"
+    );
+    ui->drawGraph->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
+    ui->WelcomeLable->setStyleSheet(
+            "QLabel{"
+            "color: rgb(0, 0, 0);" //黑色字体
+            "font: 75 20pt \"微软雅黑\";"
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "border-color: rgb(255, 170, 0);"
+            "}");
 
 }
+
 #pragma clang diagnostic pop
 
-MyPro::~MyPro()
-{
+MyPro::~MyPro() {
     delete timer1_1sec;
     delete timer2_tempAndHumGen;
     delete timer3_updateTreeView;
@@ -380,11 +376,11 @@ void MyPro::updateTreeView() {
 }
 
 void MyPro::lightTimerCallback() {
-    if (SQLUpdate){
+    if (SQLUpdate) {
         SQLUpdate = false;
         ledUnset(ui->light_SQL, 15);
     }
-    if (SrcUpdate){
+    if (SrcUpdate) {
         SrcUpdate = false;
         ledUnset(ui->light_source, 15);
     }
@@ -392,9 +388,7 @@ void MyPro::lightTimerCallback() {
 }
 
 
-
-void MyPro::ledSet(QLabel* label, int color, int size)
-{
+void MyPro::ledSet(QLabel *label, int color, int size) {
     // 将label中的文字清空
     label->setText("");
     // 先设置矩形大小
@@ -404,7 +398,7 @@ void MyPro::ledSet(QLabel* label, int color, int size)
     QString max_width = QString("max-width: %1px;").arg(size);              // 最小宽度：size
     QString max_height = QString("max-height: %1px;").arg(size);            // 最小高度：size
     // 再设置边界形状及边框
-    QString border_radius = QString("border-radius: %1px;").arg(size/2);    // 边框是圆角，半径为size/2
+    QString border_radius = QString("border-radius: %1px;").arg(size / 2);    // 边框是圆角，半径为size/2
     QString border = QString("border:1px solid black;");                    // 边框为1px黑色
     // 最后设置背景颜色
     QString background = "background-color:";
@@ -444,7 +438,7 @@ void MyPro::ledUnset(QLabel *label, int size) {
     QString max_width = QString("max-width: %1px;").arg(size);              // 最小宽度：size
     QString max_height = QString("max-height: %1px;").arg(size);            // 最小高度：size
     // 再设置边界形状及边框
-    QString border_radius = QString("border-radius: %1px;").arg(size/2);    // 边框是圆角，半径为size/2
+    QString border_radius = QString("border-radius: %1px;").arg(size / 2);    // 边框是圆角，半径为size/2
     QString border = QString("border:1px solid black;");                    // 边框为1px黑色
 
     const QString SheetStyle = min_width + min_height + max_width + max_height + border_radius + border;
@@ -457,4 +451,5 @@ void MyPro::updateSrcUpdateTimeMs(uint64_t ms) {
     timer2_tempAndHumGen->setInterval(static_cast<int >(ms));
     timer2_tempAndHumGen->start();
 }
+
 

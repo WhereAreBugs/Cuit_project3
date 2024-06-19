@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets )
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui Sql Charts)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui Sql Charts Network SerialPort)
 add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
 link_libraries(-fsanitize=address )
 
@@ -29,6 +29,9 @@ set(PROJECT_SOURCES
         drawgraph.cpp
         drawgraph.h
         drawgraph.ui
+        devicecontroler.cpp
+        devicecontroler.h
+        devicecontroler.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -55,7 +58,7 @@ else()
 endif()
 
 target_link_libraries(CUIT_Pro_2 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets   Qt5::Core
-        Qt5::Gui Qt5::Sql Qt5::Charts)
+        Qt5::Gui Qt5::Sql Qt5::Charts Qt5::Network Qt5::SerialPort)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>667</width>
-    <height>559</height>
+    <width>678</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,8 +33,8 @@
    <widget class="QLabel" name="showPaimeng">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>310</y>
+      <x>240</x>
+      <y>380</y>
       <width>181</width>
       <height>161</height>
      </rect>
@@ -46,8 +46,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>50</y>
+      <x>40</x>
+      <y>120</y>
       <width>581</width>
       <height>91</height>
      </rect>
@@ -128,8 +128,8 @@
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>190</y>
+      <x>40</x>
+      <y>260</y>
       <width>581</width>
       <height>91</height>
      </rect>
@@ -210,8 +210,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>270</y>
+      <x>40</x>
+      <y>340</y>
       <width>256</width>
       <height>23</height>
      </rect>
@@ -243,8 +243,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>140</y>
+      <x>60</x>
+      <y>210</y>
       <width>540</width>
       <height>49</height>
      </rect>
@@ -324,13 +324,55 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>50</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>数据源:</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>401</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QRadioButton" name="isSerial">
+       <property name="text">
+        <string>串口</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton_3">
+       <property name="text">
+        <string>随机数</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>667</width>
+     <width>678</width>
      <height>24</height>
     </rect>
    </property>
@@ -340,7 +382,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="autoSaveSelec"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="autoSaveSelec"/>
  </buttongroups>
 </ui>

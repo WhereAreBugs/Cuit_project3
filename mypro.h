@@ -12,6 +12,8 @@
 #include "devtool.h"
 #include "selectdata.h"
 #include "drawgraph.h"
+#include "devicecontroler.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MyPro;
@@ -26,9 +28,6 @@ public:
     MyPro(QWidget *parent = nullptr);
     ~MyPro();
 
-
-public slots:
-
 private://pointers
     Ui::MyPro *ui;
     QSqlDatabase *pDatabase = nullptr;
@@ -41,6 +40,7 @@ private://pointers
     QTimer * timer3_updateTreeView = nullptr;
     QTimer * timer4_light = nullptr;
     QTimer * settingsCheckTimer = nullptr;
+    deviceControler *pDeviceControler = nullptr;
     DrawGraph * pDrawGraphs = nullptr;
     QMovie * pMovie = nullptr;
 private://helpers
@@ -53,10 +53,11 @@ private: //业务成员变量
     QDateTime eventTimeNow;
 private://帮助函数
     void updateTreeView();
-    void ledSet(QLabel* label, int color, int size);
-    void ledUnset(QLabel* label, int size);
+    static void ledSet(QLabel* label, int color, int size);
+    static void ledUnset(QLabel* label, int size);
     friend class devTool;
 private:
     void updateSrcUpdateTimeMs(uint64_t ms);
+
 };
 #endif // MYPRO_H
