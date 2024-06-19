@@ -12,6 +12,11 @@
 deviceControler::deviceControler(QWidget *parent) :
         QWidget(parent), ui(new Ui::deviceControler) {
     ui->setupUi(this);
+    //设置背景图片
+//    setStyleSheet("QWidget {"
+//                  "border-image: url(:/images/6.jpg);"
+//                  "}");
+
     m_serialPort = new QSerialPort(this);
     m_serialPort->setBaudRate(115200, QSerialPort::AllDirections);
     m_serialPort->setFlowControl(QSerialPort::NoFlowControl);

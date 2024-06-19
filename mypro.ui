@@ -14,7 +14,8 @@
    <string>MyPro</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QFrame" name="frame">
@@ -498,7 +499,7 @@
      <x>0</x>
      <y>0</y>
      <width>876</width>
-     <height>24</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

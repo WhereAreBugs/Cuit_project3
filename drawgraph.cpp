@@ -59,8 +59,8 @@ DrawGraph::DrawGraph(QWidget *parent) :
     chart->addSeries(humList);
     chart->createDefaultAxes();
     chart->setTitle("温湿度曲线");
-    chart->axisX()->setTitleText("时间");
-    chart->axisY()->setTitleText("温度/湿度");
+//    chart->axisX()->setTitleText("时间");
+//    chart->axisY()->setTitleText("温度/湿度");
     chart->show();
     chartView->setRenderHint(QPainter::Antialiasing);
     connect(ui->refresh, &QPushButton::clicked, this, &DrawGraph::updateGraph);
@@ -102,8 +102,8 @@ void DrawGraph::updateGraph() {
     chart->addSeries(humList);
     chart->createDefaultAxes();
     chart->setTitle("温湿度曲线");
-    chart->axisX()->setTitleText("时间");
-    chart->axisY()->setTitleText("温度/湿度");
+//    chart->axisX()->setTitleText("时间");
+//    chart->axisY()->setTitleText("温度/湿度");
     chart->show();
 
     chartView->setChart(chart);

@@ -14,9 +14,9 @@ MyPro::MyPro(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MyPro) {
     setWindowTitle("物联网信息查询系统");
     ui->setupUi(this);
-    //初始化背景
+    //初始化背景,设置自动缩放
     setStyleSheet("QMainWindow {"
-                  "border-image: url(:/images/7.png);"
+                  "border-image: url(:/images/6.jpg);"
                   "}");
     // 建立数据库链接
     pDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
@@ -357,6 +357,7 @@ MyPro::MyPro(QWidget *parent)
             "border-color: rgb(255, 170, 0);"
             "}");
     pSelectData->setDevtool(pDevTool);
+    //设置背景图片
 }
 
 void MyPro::checkDataRange() {

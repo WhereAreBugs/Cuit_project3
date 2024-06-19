@@ -10,6 +10,9 @@
 devTool::devTool(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::devTool) {
     ui->setupUi(this);
+    setStyleSheet("QMainWindow {"
+                  "border-image: url(:/images/7.jpg);"
+                  "}");//设置背景图片
     ui->showPaimeng->setPixmap(QPixmap(":/images/1.png"));
     ui->showPaimeng->setScaledContents(true);
     timer = new QTimer(this);
