@@ -373,6 +373,35 @@ void MyPro::checkDataRange() {
     } else if (this->pDevTool->getAutoSaveMode() == devTool::AutoSaveModeALL) {
         this->ui->recordButton->click();
     }
+    if (temprature < 20) {
+        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 64, 255);}");
+        ui->tempInd->setStyleSheet("QLabel {"
+                                   "color: rgb(0, 64, 255);" // 蓝色
+                                   "}");
+        ui->tempInd->setText("温度过低");
+    } else if (temprature < 30) { //改用深绿色
+        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 0, 0);}");
+        ui->tempInd->setStyleSheet("QLabel {"
+                                   "color: rgb(0, 0, 0);"
+                                   "}");
+        ui->tempInd->setText("温度正常");
+    } else {
+        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(255, 0, 0);}");
+        ui->tempInd->setStyleSheet("QLabel {"
+                                   "color: rgb(255, 0, 0);" // 红色
+                                   "}");
+        ui->tempInd->setText("温度过高");
+    }
+    if (humidity < 30) {
+            ui->tempInd->setText(ui->tempInd->text()+", 湿度过低");
+        ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 64, 255);}");
+    } else if (humidity < 60) {
+            ui->tempInd->setText(ui->tempInd->text()+", 湿度正常");
+        ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 0, 0);}");
+    } else {
+            ui->tempInd->setText(ui->tempInd->text()+", 湿度过高");
+        ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(255, 0, 0);}");
+    }
 
 }
 
@@ -402,6 +431,17 @@ void MyPro::updateTreeView() {
             "select id,temperature as 温度, humidity as 湿度, light as 光照, adc0, adc1 ,time as 时间 from iotData");
     ui->databaseShow->setModel(model);
     ui->databaseShow->setColumnHidden(0, true);
+    ui->databaseShow->setColumnWidth(1, 40);
+    ui->databaseShow->setColumnWidth(2, 40);
+    ui->databaseShow->setColumnWidth(3, 40);
+    ui->databaseShow->setColumnWidth(4, 40);
+    ui->databaseShow->setColumnWidth(5, 40);
+    ui->databaseShow->setColumnWidth(6, 260);
+
+    ui->databaseShow->setAlternatingRowColors(true);
+    ui->databaseShow->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->databaseShow->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->databaseShow->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->databaseShow->update();
 }
 

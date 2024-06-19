@@ -399,6 +399,19 @@
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="tempInd">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>状态未知</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QPushButton" name="devloperTool">
     <property name="geometry">
