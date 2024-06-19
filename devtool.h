@@ -26,6 +26,11 @@ public:
     float getTempratureMax() const{return temprature_max;}
     float getHumidityMin() const{return humidity_min;}
     float getHumidityMax() const{return humidity_max;}
+    float getHumLowLimit() const{return hum_low_limit;}
+    float getHumHighLimit() const{return hum_high_limit;}
+    float getTmpLowLimit() const{return tmp_low_limit;}
+    float getTmpHighLimit() const{return tmp_high_limit;}
+
     uint64_t getDataSrcUpdateTimeMs() const{return dataSrcUpdateTimeMs;}
 public:
     enum AutoSaveMode{
@@ -45,11 +50,19 @@ private:
     float temprature_max=40;
     float humidity_min=0;
     float humidity_max=100;
+    float hum_low_limit = 0;
+    float hum_high_limit = 30;
+    float tmp_low_limit = 0;
+    float tmp_high_limit = 40;
     uint64_t  dataSrcUpdateTimeMs= 500;
     void updateDataSrcUpdateTimeMs(uint64_t ms);
     AutoSaveMode autoSaveMode = AutoSaveModeOff;
     void disableExtraSetting();
     void enableExtraSetting();
+
+    void randomHide();
+
+    void randomShow();
 };
 
 

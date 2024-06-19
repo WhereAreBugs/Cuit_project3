@@ -27,8 +27,16 @@ MyPro::MyPro(QWidget *parent)
     // 初始化数据表
     QSqlQuery query;
     //创建数据表:(主键，温度，湿度，时间)
-    query.exec("create table if not exists iotData"
-               "(id integer primary key autoincrement, temperature float, humidity float, time datetime)");
+    query.exec("create table if not exists iotData\n"
+               "(\n"
+               "    id          integer primary key autoincrement,\n"
+               "    temperature float,\n"
+               "    humidity    float,\n"
+               "    light       integer,\n"
+               "    adc0        integer,\n"
+               "    adc1        integer,\n"
+               "    time        datetime\n"
+               ")");
     query.finish();
     // 数据表初始化完成
     // 初始化时钟
@@ -74,37 +82,35 @@ MyPro::MyPro(QWidget *parent)
             ui->tempratureDIsplay->display(temprature);
             ui->humityDisplay->display(humidity);
             // 显示数据完成
-            if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnNotOK) {
-                if (humidity < 30 || humidity > 60 || temprature < 20 || temprature > 30)
-                    ui->recordButton->click();
-            } else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnHIGH) {
-                if (humidity > 60 || temprature > 30)
-                    ui->recordButton->click();
-            } else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnLow) {
-                if (humidity < 30 || temprature < 20)
-                    ui->recordButton->click();
-            } else if (pDevTool->getAutoSaveMode() == devTool::AutoSaveModeALL) {
-                ui->recordButton->click();
-            }
+            checkDataRange();
+        } else {
+            eventTimeNow = QDateTime::currentDateTime();
         }
-        else{
-            timer2_tempAndHumGen->stop();
-        }
+        ui->serialDisplay ->setText(pDeviceControler->getSerialPortName());
+        ui->ID_Display->setText(QString('0'+pDeviceControler->getDeviceId()));
     });
     timer2_tempAndHumGen->start();
     pDeviceControler = new deviceControler();
 
-    connect(pDeviceControler,&deviceControler::deviceUpdate,this,[=](){
+    connect(pDeviceControler, &deviceControler::deviceUpdate, this, [=]() {
+        if (!pDevTool->getDataSource())
+            return;
         auto dev = pDeviceControler->getDeviceStatus();
         SrcUpdate = true;
         temprature = dev.tempVal;
         humidity = dev.humVal;
+        light = dev.lightVal;
+        adc0 = dev.adc0Val;
+        adc1 = dev.adc1Val;
         ledSet(ui->light_source, Qt::blue, 15);
         if (!timer4_light->isActive())
             timer4_light->start();
         ui->tempratureDIsplay->display(dev.tempVal);
         ui->humityDisplay->display(dev.humVal);
-
+        ui->light_display->display((int) dev.lightVal);
+        ui->adc1_display->display((int) dev.adc0Val);
+        ui->adc2_display->display((int) dev.adc1Val);
+        checkDataRange();
     });
     // 初始化开发者工具界面
     pDevTool = new devTool();
@@ -124,9 +130,12 @@ MyPro::MyPro(QWidget *parent)
     connect(ui->recordButton, &QPushButton::clicked, this, [=]() {
         qDebug() << "save button clicked";
         QSqlQuery query;
-        query.prepare("insert into iotData(temperature, humidity, time) values(?, ?, ?)");
+        query.prepare("insert into iotData(temperature, humidity, light,adc0,adc1,time) values(?, ?, ?, ?, ?, ?)");
         query.addBindValue(temprature);
         query.addBindValue(humidity);
+        query.addBindValue(light);
+        query.addBindValue(adc0);
+        query.addBindValue(adc1);
         query.addBindValue(eventTimeNow);
         query.exec();
         query.finish();
@@ -135,18 +144,21 @@ MyPro::MyPro(QWidget *parent)
     });
     // 设置保存按键完成
     // 设置设备控制
-    connect(ui->deviceControlButton,&QPushButton::clicked, this, [=]() {
+    connect(ui->deviceControlButton, &QPushButton::clicked, this, [=]() {
         pDeviceControler->show();
         pDeviceControler->setFocus();
     });
-    // 在treeview中显示数据
     model = new QSqlQueryModel(ui->databaseShow);
-    model->setQuery("select id,temperature as 温度, humidity as 湿度, time as 时间 from iotData");
+    model->setQuery(
+            "select id,temperature as 温度, humidity as 湿度, light as 光照, adc0, adc1, time as 时间 from iotData");
     ui->databaseShow->setModel(model);
     ui->databaseShow->setColumnHidden(0, true);
     ui->databaseShow->setColumnWidth(1, 40);
     ui->databaseShow->setColumnWidth(2, 40);
-    ui->databaseShow->setColumnWidth(3, 260);
+    ui->databaseShow->setColumnWidth(3, 40);
+    ui->databaseShow->setColumnWidth(4, 40);
+    ui->databaseShow->setColumnWidth(5, 40);
+    ui->databaseShow->setColumnWidth(6, 260);
     // 设置treeview的样式
     ui->databaseShow->setStyleSheet("QTableView {"
                                     "border: 2px solid rgb(255, 170, 0);"
@@ -344,6 +356,23 @@ MyPro::MyPro(QWidget *parent)
             "border-style: outset;"
             "border-color: rgb(255, 170, 0);"
             "}");
+    pSelectData->setDevtool(pDevTool);
+}
+
+void MyPro::checkDataRange() {
+    if (this->pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnNotOK) {
+        if (this->humidity < this->pDevTool->getHumLowLimit() || this->humidity > this->pDevTool->getHumHighLimit() ||
+            this->temprature < this->pDevTool->getTmpLowLimit() || this->temprature > this->pDevTool->getTmpHighLimit())
+            this->ui->recordButton->click();
+    } else if (this->pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnHIGH) {
+        if (this->humidity > this->pDevTool->getHumHighLimit() || this->temprature > this->pDevTool->getTmpHighLimit())
+            this->ui->recordButton->click();
+    } else if (this->pDevTool->getAutoSaveMode() == devTool::AutoSaveModeOnLow) {
+        if (this->humidity < this->pDevTool->getHumLowLimit() || this->temprature < this->pDevTool->getTmpHighLimit())
+            this->ui->recordButton->click();
+    } else if (this->pDevTool->getAutoSaveMode() == devTool::AutoSaveModeALL) {
+        this->ui->recordButton->click();
+    }
 
 }
 
@@ -369,7 +398,8 @@ void MyPro::updateTreeView() {
         timer4_light->start();
     delete model;
     model = new QSqlQueryModel(ui->databaseShow);
-    model->setQuery("select id,temperature as 温度, humidity as 湿度, time as 时间 from iotData");
+    model->setQuery(
+            "select id,temperature as 温度, humidity as 湿度, light as 光照, adc0, adc1 ,time as 时间 from iotData");
     ui->databaseShow->setModel(model);
     ui->databaseShow->setColumnHidden(0, true);
     ui->databaseShow->update();

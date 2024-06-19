@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>837</width>
-    <height>641</height>
+    <width>876</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,10 +20,10 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>40</y>
-      <width>771</width>
-      <height>541</height>
+      <x>40</x>
+      <y>30</y>
+      <width>811</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -53,7 +53,7 @@
       <rect>
        <x>20</x>
        <y>90</y>
-       <width>381</width>
+       <width>421</width>
        <height>411</height>
       </rect>
      </property>
@@ -136,7 +136,7 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>440</x>
+       <x>470</x>
        <y>90</y>
        <width>261</width>
        <height>411</height>
@@ -263,8 +263,8 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>620</x>
-       <y>10</y>
+       <x>640</x>
+       <y>20</y>
        <width>91</width>
        <height>44</height>
       </rect>
@@ -335,28 +335,12 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="tempInd">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>状态未知</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>20</x>
        <y>500</y>
-       <width>251</width>
+       <width>301</width>
        <height>31</height>
       </rect>
      </property>
@@ -383,12 +367,12 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>270</x>
+       <x>320</x>
        <y>500</y>
-       <width>131</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -500,7 +484,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>837</width>
+     <width>876</width>
      <height>24</height>
     </rect>
    </property>

@@ -24,7 +24,10 @@ deviceControler::deviceControler(QWidget *parent) :
             m_serialPort->open(QSerialPort::ReadWrite);
         }
     }
-    ui->IDset->setText(QString(deviceID));
+    ui->IDset->setText(QString('0'+(int)deviceID));
+    ui->FanSpeed->setMinimum(0);
+    ui->FanSpeed->setMaximum(2);
+    ui->FanSpeed->setSingleStep(1);
     auto *serialRefreshTimer = new QTimer(this);
     serialRefreshTimer->start(500);
     connect(serialRefreshTimer, &QTimer::timeout, this, &deviceControler::on_serialFresh);
@@ -64,7 +67,7 @@ void deviceControler::on_serialFresh() {
 bool deviceControler::fanToggle() {
     uint8_t rawData[5] = {0xDD, 0, 0x24, 0x00, 0};
     rawData[1] = deviceID;
-    rawData[4] = 0x04 + 0x04 * (!fanOn);
+    rawData[4] = 0x04 + 0x04 * (deviceStatus.State.fan);
     m_serialPort->write(reinterpret_cast<const char *>(rawData), 5);
     return true;
 }
@@ -72,7 +75,7 @@ bool deviceControler::fanToggle() {
 bool deviceControler::hexToggle() {
     uint8_t rawData[5] = {0xDD, 0, 0x24, 0x00, 0};
     rawData[1] = deviceID;
-    rawData[4] = 0x09 + !hexOn;
+    rawData[4] = 0x09 + !deviceStatus.State.hex;
     m_serialPort->write(reinterpret_cast<const char *>(rawData), 5);
     return true;
 }
@@ -80,7 +83,7 @@ bool deviceControler::hexToggle() {
 bool deviceControler::lightToggle() {
     uint8_t rawData[5] = {0xDD, 0, 0x24, 0x00, 0};
     rawData[1] = deviceID;
-    rawData[4] = 0x00 + !lightOn;
+    rawData[4] = 0x00 + !deviceStatus.State.led;
     m_serialPort->write(reinterpret_cast<const char *>(rawData), 5);
     return true;
 }
@@ -127,6 +130,10 @@ void deviceControler::on_serialReadable() {
             deviceStatus.State.buzz = raw[25];
             deviceStatus.State.hex = raw[26];
             emit deviceUpdate();
+            ui->fanStatus->setText(QString('0'+deviceStatus.State.fan));
+            ui->lightStatus->setText(QString('0'+deviceStatus.State.led));
+            ui->buzzStatus->setText(QString('0'+deviceStatus.State.buzz));
+            ui->hexStatus->setText(QString('0'+deviceStatus.State.hex));
         }
     }
     m_serialPort->readAll();

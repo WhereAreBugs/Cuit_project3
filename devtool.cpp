@@ -14,12 +14,24 @@ devTool::devTool(QWidget *parent) :
     ui->showPaimeng->setScaledContents(true);
     timer = new QTimer(this);
     timer->setInterval(100);
+    if (!ui->isRandom->isChecked())
+    {
+       randomHide();
+    }else
+    {
+        randomShow();
+    }
 
     connect(timer, &QTimer::timeout, this, [=]() {
         if (ui->buttonGroup->checkedId()==-6) {
             enableExtraSetting();
         } else {
             disableExtraSetting();
+        }
+        if (ui->buttonGroup_2->checkedId()!=-2) {
+            randomShow();
+        } else {
+            randomHide();
         }
         switch (ui->buttonGroup->checkedId()) {
             case  -1:case -2: //正常
@@ -107,8 +119,38 @@ devTool::devTool(QWidget *parent) :
         }
         updateDataSrcUpdateTimeMs(ui->datasourceInput->text().toULongLong());
     });
+    ui->tempHigh->setValue(tmp_high_limit);
+    ui->tempLow->setValue(tmp_low_limit);
+    ui->humHigh->setValue(hum_high_limit);
+    ui->humLow->setValue(hum_low_limit);
 
     timer->start();
+}
+
+void devTool::randomShow() {
+    this->ui->label->show();
+    this->ui->randMode_NorMal->show();
+    this->ui->randModeAllLow->show();
+    this->ui->randModeALLHIGH->show();
+    this->ui->randModeAllOK->show();
+    this->ui->radioButton->show();
+    ui->datasourceInput->show();
+    ui->dataSourceLable->show();
+    ui->datasourceOB->show();
+}
+
+void devTool::randomHide() {
+    this->ui->label->hide();
+    this->ui->randMode_NorMal->hide();
+    this->ui->randModeAllLow->hide();
+    this->ui->randModeALLHIGH->hide();
+    this->ui->randModeAllOK->hide();
+    this->ui->radioButton->hide();
+    ui->datasourceInput->hide();
+    ui->dataSourceLable->hide();
+    ui->datasourceOB->hide();
+    disableExtraSetting();
+
 }
 
 devTool::~devTool() {
@@ -144,3 +186,4 @@ void devTool::enableExtraSetting() {
 bool devTool::getDataSource() const {
     return ui->isSerial->isChecked();
 }
+

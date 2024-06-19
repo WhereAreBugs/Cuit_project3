@@ -37,29 +37,59 @@ selectData::~selectData() {
 void selectData::checkFuncs() {
     QString baseQurey = "select temperature as 温度,humidity as 湿度,time as 时间 from iotData where false";
     if (ui->cB_HighTemp->isChecked()) {
-        baseQurey += " or temperature > 30";
+        baseQurey += " or temperature > ";
+        char bytes[5] = {0};
+        sprintf(bytes, "%.1f", pDevTool->getTmpHighLimit());
+        baseQurey += bytes;
     }
     if (ui->cB_LowTemp->isChecked()) {
-        baseQurey += " or temperature < 20";
+        baseQurey += " or temperature < ";
+        char bytes[5] = {0};
+        sprintf(bytes, "%.1f", pDevTool->getTmpLowLimit());
+        baseQurey += bytes;
+
     }
     if (ui->cB_HighHum->isChecked()) {
-        baseQurey += " or humidity > 60";
+        baseQurey += " or humidity > ";
+        char bytes[5] = {0};
+        sprintf(bytes, "%.1f", pDevTool->getHumHighLimit());
+        baseQurey += bytes;
     }
     if (ui->cB_LowHum->isChecked()) {
-        baseQurey += " or humidity < 30";
+        baseQurey += " or humidity < ";
+        char bytes[5] = {0};
+        sprintf(bytes, "%.1f", pDevTool->getHumLowLimit());
+        baseQurey += bytes;
     }
     if (ui->cB_NormalHum->isChecked()) {
-        baseQurey += " or humidity >= 30 and humidity <= 60";
+        baseQurey += " or humidity >= ";
+        char bytes[5] = {0};
+        sprintf(bytes, "%.1f", pDevTool->getHumLowLimit());
+        baseQurey += bytes;
+        baseQurey += " and humidity <= ";
+        sprintf(bytes, "%.1f", pDevTool->getHumHighLimit());
+        baseQurey += bytes;
     }
     if (ui->cB_NormalTemp->isChecked()) {
-        baseQurey += " or temperature >= 20 and temperature <= 30";
+        baseQurey += " or temperature >= ";
+        char bytes[5] = {0};
+        sprintf(bytes, "%.1f", pDevTool->getTmpLowLimit());
+        baseQurey += bytes;
+        baseQurey += " and temperature <= ";
+        sprintf(bytes, "%.1f", pDevTool->getTmpHighLimit());
+        baseQurey += bytes;
     }
     QSqlQuery query(*pDatabase);
     query.exec(baseQurey);
-    QSqlQueryModel *model = new QSqlQueryModel;
+    auto *model = new QSqlQueryModel;
     model->setQuery(query);
     ui->tableView->setModel(model);
     ui->tableView->setColumnWidth(1, 40);
     ui->tableView->setColumnWidth(3, 40);
     ui->tableView->setColumnWidth(2, 260);
+}
+
+void selectData::setDevtool(devTool *pDevTool) {
+    this->pDevTool = pDevTool;
+
 }

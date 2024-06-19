@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include "QtSql"
+#include "devtool.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class selectData; }
@@ -17,13 +18,14 @@ Q_OBJECT
 
 public:
     explicit selectData(QWidget *parent = nullptr);
-
+    void setDevtool(devTool * pDevTool);
     ~selectData() override;
 private Q_SLOTS:
     void checkFuncs();
 private:
     Ui::selectData *ui;
     QTimer * checkChecker = nullptr;
+    devTool * pDevTool = nullptr;
     QSqlDatabase * pDatabase = nullptr;
 };
 

@@ -50,6 +50,9 @@ private://helpers
 private: //业务成员变量
     float temprature;
     float humidity;
+    int light;
+    int adc0;
+    int adc1;
     QDateTime eventTimeNow;
 private://帮助函数
     void updateTreeView();
@@ -58,6 +61,9 @@ private://帮助函数
     friend class devTool;
 private:
     void updateSrcUpdateTimeMs(uint64_t ms);
+
+    void checkDataRange();
+
 
 };
 #endif // MYPRO_H
