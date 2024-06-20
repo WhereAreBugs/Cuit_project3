@@ -39,8 +39,11 @@ DrawGraph::DrawGraph(QWidget *parent) :
     QSqlQuery query(*pDatabase);
     query.exec("select temperature,humidity,light,time from iotData");
     tempList = new QtCharts::QLineSeries();
+    tempList->setName("温度");
     humList = new QtCharts::QLineSeries();
+    humList->setName("湿度");
     lightList = new QtCharts::QLineSeries();
+    lightList->setName("光照");
     tempList->clear();
     humList->clear();
     lightList->clear();
@@ -49,23 +52,21 @@ DrawGraph::DrawGraph(QWidget *parent) :
         startTime = query.value(3).toDateTime().toSecsSinceEpoch();
         tempList->append(0, query.value(0).toFloat());
         humList->append(0, query.value(1).toFloat());
-        lightList->append(0, query.value(2).toFloat());
+        lightList->append(0,query.value(2).toFloat());
     }
     while (query.next()) {
         tempList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
         humList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
         lightList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(2).toFloat());
-           }
-    chart->legend()->hide();
+    }
     if (!chart->series().empty())
         chart->removeAllSeries();
     chart->addSeries(tempList);
     chart->addSeries(humList);
     chart->addSeries(lightList);
     chart->createDefaultAxes();
-    chart->setTitle("参数曲线");
-//    chart->axisX()->setTitleText("时间");
-//    chart->axisY()->setTitleText("温度/湿度");
+    chart->setTitle("參數曲线");
+    chart->axisX()->setTitleText("时间");
     chart->axisY()->setTitleText("温度/湿度/光照");
     chart->show();
     chartView->setRenderHint(QPainter::Antialiasing);
@@ -90,8 +91,11 @@ void DrawGraph::updateGraph() {
     chart->removeAllSeries();
     query.exec("select temperature,humidity,light,time from iotData");
     tempList = new QtCharts::QLineSeries();
+    tempList->setName("温度");
     humList = new QtCharts::QLineSeries();
+    humList->setName("湿度");
     lightList = new QtCharts::QLineSeries();
+    lightList->setName("光照");
     tempList->clear();
     humList->clear();
     lightList->clear();
@@ -100,20 +104,21 @@ void DrawGraph::updateGraph() {
         startTime = query.value(3).toDateTime().toSecsSinceEpoch();
         tempList->append(0, query.value(0).toFloat());
         humList->append(0, query.value(1).toFloat());
-        lightList->append(0, query.value(2).toFloat());
+        lightList->append(0,query.value(2).toFloat());
     }
     while (query.next()) {
         tempList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
         humList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
         lightList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(2).toFloat());
-          }
+    }
 //    //更新chart
+
     chart->addSeries(tempList);
     chart->addSeries(humList);
     chart->addSeries(lightList);
     chart->createDefaultAxes();
-    chart->setTitle("参数曲线");
-//    chart->axisX()->setTitleText("时间");
+    chart->setTitle("參數曲线");
+    chart->axisX()->setTitleText("时间");
     chart->axisY()->setTitleText("温度/湿度/光照");
     chart->show();
     chartView->setChart(chart);
