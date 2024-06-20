@@ -122,6 +122,19 @@ devTool::devTool(QWidget *parent) :
         }
         updateDataSrcUpdateTimeMs(ui->datasourceInput->text().toULongLong());
     });
+    connect(ui->tempHigh, QOverload<int>::of(&QSpinBox::valueChanged), this, [=](int value) {
+        tmp_high_limit = value;
+    });
+    connect(ui->tempLow, QOverload<int>::of(&QSpinBox::valueChanged), this, [=](int value) {
+        tmp_low_limit = value;
+    });
+    connect(ui->humHigh, QOverload<int>::of(&QSpinBox::valueChanged), this, [=](int value) {
+        hum_high_limit = value;
+    });
+    connect(ui->humLow, QOverload<int>::of(&QSpinBox::valueChanged), this, [=](int value) {
+        hum_low_limit = value;
+    });
+
     ui->tempHigh->setValue(tmp_high_limit);
     ui->tempLow->setValue(tmp_low_limit);
     ui->humHigh->setValue(hum_high_limit);

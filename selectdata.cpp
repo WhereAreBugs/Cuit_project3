@@ -13,7 +13,7 @@ selectData::selectData(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::selectData) {
     setWindowTitle("数据查询");
     ui->setupUi(this);
-
+//
 //    setStyleSheet("QWidget {"
 //                  "border-image: url(:/images/6.jpg);"
 //                  "}");

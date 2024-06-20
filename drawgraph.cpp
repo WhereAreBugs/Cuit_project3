@@ -37,30 +37,36 @@ DrawGraph::DrawGraph(QWidget *parent) :
     ledSet(ui->lightInd, Qt::blue, 15);
     timer2_Light->start();
     QSqlQuery query(*pDatabase);
-    query.exec("select temperature,humidity,time from iotData");
+    query.exec("select temperature,humidity,light,time from iotData");
     tempList = new QtCharts::QLineSeries();
     humList = new QtCharts::QLineSeries();
+    lightList = new QtCharts::QLineSeries();
     tempList->clear();
     humList->clear();
+    lightList->clear();
     if (query.next())
     {
-        startTime = query.value(2).toDateTime().toSecsSinceEpoch();
+        startTime = query.value(3).toDateTime().toSecsSinceEpoch();
         tempList->append(0, query.value(0).toFloat());
         humList->append(0, query.value(1).toFloat());
+        lightList->append(0, query.value(2).toFloat());
     }
     while (query.next()) {
-        tempList->append(query.value(2).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
-        humList->append(query.value(2).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
-    }
+        tempList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
+        humList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
+        lightList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(2).toFloat());
+           }
     chart->legend()->hide();
     if (!chart->series().empty())
         chart->removeAllSeries();
     chart->addSeries(tempList);
     chart->addSeries(humList);
+    chart->addSeries(lightList);
     chart->createDefaultAxes();
-    chart->setTitle("温湿度曲线");
+    chart->setTitle("参数曲线");
 //    chart->axisX()->setTitleText("时间");
 //    chart->axisY()->setTitleText("温度/湿度");
+    chart->axisY()->setTitleText("温度/湿度/光照");
     chart->show();
     chartView->setRenderHint(QPainter::Antialiasing);
     connect(ui->refresh, &QPushButton::clicked, this, &DrawGraph::updateGraph);
@@ -82,30 +88,34 @@ void DrawGraph::updateGraph() {
     timer2_Light->start();
     QSqlQuery query(*pDatabase);
     chart->removeAllSeries();
-    query.exec("select temperature,humidity,time from iotData");
+    query.exec("select temperature,humidity,light,time from iotData");
     tempList = new QtCharts::QLineSeries();
     humList = new QtCharts::QLineSeries();
+    lightList = new QtCharts::QLineSeries();
     tempList->clear();
     humList->clear();
+    lightList->clear();
     if (query.next())
     {
-        startTime = query.value(2).toDateTime().toSecsSinceEpoch();
+        startTime = query.value(3).toDateTime().toSecsSinceEpoch();
         tempList->append(0, query.value(0).toFloat());
         humList->append(0, query.value(1).toFloat());
+        lightList->append(0, query.value(2).toFloat());
     }
     while (query.next()) {
-        tempList->append(query.value(2).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
-        humList->append(query.value(2).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
-    }
+        tempList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
+        humList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
+        lightList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(2).toFloat());
+          }
 //    //更新chart
     chart->addSeries(tempList);
     chart->addSeries(humList);
+    chart->addSeries(lightList);
     chart->createDefaultAxes();
-    chart->setTitle("温湿度曲线");
+    chart->setTitle("参数曲线");
 //    chart->axisX()->setTitleText("时间");
-//    chart->axisY()->setTitleText("温度/湿度");
+    chart->axisY()->setTitleText("温度/湿度/光照");
     chart->show();
-
     chartView->setChart(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->repaint();

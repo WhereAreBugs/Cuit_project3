@@ -86,8 +86,12 @@ MyPro::MyPro(QWidget *parent)
         } else {
             eventTimeNow = QDateTime::currentDateTime();
         }
-        ui->serialDisplay ->setText(pDeviceControler->getSerialPortName());
-        ui->ID_Display->setText(QString('0'+pDeviceControler->getDeviceId()));
+        ui->serialDisplay->setText(pDeviceControler->getSerialPortName());
+        auto id = pDeviceControler->getDeviceId();
+        if (id == 255)
+            ui->ID_Display->setText("错误");
+        else
+            ui->ID_Display->setText(QString('0' + pDeviceControler->getDeviceId()));
     });
     timer2_tempAndHumGen->start();
     pDeviceControler = new deviceControler();
@@ -375,33 +379,33 @@ void MyPro::checkDataRange() {
         this->ui->recordButton->click();
     }
     if (temprature < 20) {
-        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 64, 255);}");
+        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet + "\ncolor: rgb(0, 64, 255);}");
         ui->tempInd->setStyleSheet("QLabel {"
                                    "color: rgb(0, 64, 255);" // 蓝色
                                    "}");
         ui->tempInd->setText("温度过低");
     } else if (temprature < 30) { //改用深绿色
-        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 0, 0);}");
+        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet + "\ncolor: rgb(0, 0, 0);}");
         ui->tempInd->setStyleSheet("QLabel {"
                                    "color: rgb(0, 0, 0);"
                                    "}");
         ui->tempInd->setText("温度正常");
     } else {
-        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(255, 0, 0);}");
+        ui->tempratureDIsplay->setStyleSheet(LCDStyleSheet + "\ncolor: rgb(255, 0, 0);}");
         ui->tempInd->setStyleSheet("QLabel {"
                                    "color: rgb(255, 0, 0);" // 红色
                                    "}");
         ui->tempInd->setText("温度过高");
     }
     if (humidity < 30) {
-            ui->tempInd->setText(ui->tempInd->text()+", 湿度过低");
-        ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 64, 255);}");
+        ui->tempInd->setText(ui->tempInd->text() + ", 湿度过低");
+        ui->humityDisplay->setStyleSheet(LCDStyleSheet + "\ncolor: rgb(0, 64, 255);}");
     } else if (humidity < 60) {
-            ui->tempInd->setText(ui->tempInd->text()+", 湿度正常");
-        ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(0, 0, 0);}");
+        ui->tempInd->setText(ui->tempInd->text() + ", 湿度正常");
+        ui->humityDisplay->setStyleSheet(LCDStyleSheet + "\ncolor: rgb(0, 0, 0);}");
     } else {
-            ui->tempInd->setText(ui->tempInd->text()+", 湿度过高");
-        ui->humityDisplay->setStyleSheet(LCDStyleSheet+"\ncolor: rgb(255, 0, 0);}");
+        ui->tempInd->setText(ui->tempInd->text() + ", 湿度过高");
+        ui->humityDisplay->setStyleSheet(LCDStyleSheet + "\ncolor: rgb(255, 0, 0);}");
     }
 
 }

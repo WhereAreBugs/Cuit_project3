@@ -24,12 +24,12 @@ deviceControler::deviceControler(QWidget *parent) :
     QSerialPortInfo ports;
     for (const QSerialPortInfo &info: QSerialPortInfo::availablePorts()) {
         ui->serialList->addItem(info.portName());
-        if (info.portName().contains("tty") && (info.portName().contains("USB") || info.portName().contains("usb"))){
+        if (info.portName().contains("tty") && (info.portName().contains("USB") || info.portName().contains("usb"))) {
             m_serialPort->setPortName(info.portName());
             m_serialPort->open(QSerialPort::ReadWrite);
         }
     }
-    ui->IDset->setText(QString('0'+(int)deviceID));
+    ui->IDset->setText(QString('0' + (int) deviceID));
     ui->FanSpeed->setMinimum(0);
     ui->FanSpeed->setMaximum(2);
     ui->FanSpeed->setSingleStep(1);
@@ -80,7 +80,8 @@ bool deviceControler::fanToggle() {
 bool deviceControler::hexToggle() {
     uint8_t rawData[5] = {0xDD, 0, 0x24, 0x00, 0};
     rawData[1] = deviceID;
-    rawData[4] = 0x09 + !deviceStatus.State.hex;
+    rawData[4] = 0x09 + hexOn;
+    hexOn = !hexOn;
     m_serialPort->write(reinterpret_cast<const char *>(rawData), 5);
     return true;
 }
@@ -88,7 +89,8 @@ bool deviceControler::hexToggle() {
 bool deviceControler::lightToggle() {
     uint8_t rawData[5] = {0xDD, 0, 0x24, 0x00, 0};
     rawData[1] = deviceID;
-    rawData[4] = 0x00 + !deviceStatus.State.led;
+    rawData[4] = 0x00 + !lightOn;
+    lightOn = !lightOn;
     m_serialPort->write(reinterpret_cast<const char *>(rawData), 5);
     return true;
 }
@@ -135,10 +137,10 @@ void deviceControler::on_serialReadable() {
             deviceStatus.State.buzz = raw[25];
             deviceStatus.State.hex = raw[26];
             emit deviceUpdate();
-            ui->fanStatus->setText(QString('0'+deviceStatus.State.fan));
-            ui->lightStatus->setText(QString('0'+deviceStatus.State.led));
-            ui->buzzStatus->setText(QString('0'+deviceStatus.State.buzz));
-            ui->hexStatus->setText(QString('0'+deviceStatus.State.hex));
+            ui->fanStatus->setText(QString('0' + deviceStatus.State.fan));
+            ui->lightStatus->setText(QString('0' + !lightOn));
+            ui->buzzStatus->setText(QString('0' + deviceStatus.State.buzz));
+            ui->hexStatus->setText(QString('0' + deviceStatus.State.hex));
         }
     }
     m_serialPort->readAll();
@@ -157,11 +159,17 @@ deviceControler::DeviceStruct deviceControler::getDeviceStatus() {
 }
 
 QString deviceControler::getSerialPortName() {
-    return m_serialPort->portName();
+    auto name = m_serialPort->portName();
+    if (name.isEmpty())
+        name = "错误";
+    return name;
 }
 
 uint8_t deviceControler::getDeviceId() {
-    return deviceID;
+    if (m_serialPort->isOpen())
+        return deviceID;
+    else
+        return 255;
 }
 
 

@@ -43,7 +43,7 @@ public:
     void deviceUpdate();
 
 private:
-    uint8_t deviceID = 0x05;
+    uint8_t deviceID = 0x07;
     bool fanOn = false;
     bool hexOn = false;
     bool lightOn = false;
