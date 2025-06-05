@@ -11,10 +11,25 @@ devTool::devTool(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::devTool) {
     ui->setupUi(this);
     setStyleSheet("QMainWindow {"
-                  "border-image: url(:/images/7.jpg);"
+                  "border-image: url(:/images/6.jpg);"
                   "}");//设置背景图片
     ui->showPaimeng->setPixmap(QPixmap(":/images/1.png"));
     ui->showPaimeng->setScaledContents(true);
+    ui->exitButton->setStyleSheet(
+    "QPushButton{"
+        "background-color: rgb(0, 11, 255);" //蓝色背景
+        "color: rgb(255, 255, 255);" //白色字体
+        "border-radius: 10px;"
+        "border: 2px groove gray;"
+        "border-style: outset;"
+        "}"
+        "QPushButton:hover{"
+        "background-color: rgb(85, 170, 255);" //蓝色背景
+        "}"
+        "QPushButton:pressed{"
+        "background-color: rgb(85, 255, 255);"
+        "border-style: inset;"
+        "}");
     timer = new QTimer(this);
     timer->setInterval(100);
     if (!ui->isRandom->isChecked())
@@ -24,7 +39,9 @@ devTool::devTool(QWidget *parent) :
     {
         randomShow();
     }
-
+    connect(ui->exitButton,&QPushButton::clicked,[=]() {
+        this->close();
+    });
     connect(timer, &QTimer::timeout, this, [=]() {
         if (ui->buttonGroup->checkedId()==-6) {
             enableExtraSetting();
@@ -201,5 +218,17 @@ void devTool::enableExtraSetting() {
 
 bool devTool::getDataSource() const {
     return ui->isSerial->isChecked();
+}
+
+bool devTool::getAlarmOnLow() {
+    return ui->alarmOnLow->isChecked();
+}
+
+bool devTool::getAlarmOnHigh() {
+    return ui->alarmOnHigh->isChecked();
+}
+
+bool devTool::getAlarmOnAll() {
+    return ui->alarmOnAll->isChecked();
 }
 

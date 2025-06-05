@@ -35,9 +35,13 @@ public:
 
     void slots on_fanSpeed();
 
+    void slots on_buzzOnoff();
+
     void slots on_serialFresh();
 
     void slots on_serialReadable();
+
+    void slots exit();
 
     signals:
     void deviceUpdate();
@@ -47,11 +51,13 @@ private:
     bool fanOn = false;
     bool hexOn = false;
     bool lightOn = false;
+    bool buzzOn = false;
     enum FanSpeed {
         fanSpeedLow = 0,
         fanSpeedMid = 1,
         fanSpeedHigh = 2
     };
+    QTimer *alarmTimer = nullptr;
     FanSpeed fanSpeed = fanSpeedLow;
 private:
     bool fanToggle();
@@ -59,6 +65,8 @@ private:
     bool hexToggle();
 
     bool lightToggle();
+
+    bool buzzToggle();
 
     bool setFanspeed(FanSpeed speed);
 
@@ -82,8 +90,9 @@ public:
             uint8_t hex;
         }State;
     } DeviceStruct;
+    void alarm_tigger();
 private:
-    DeviceStruct deviceStatus;
+    DeviceStruct deviceStatus{};
 public:
     DeviceStruct getDeviceStatus();
     QString getSerialPortName();

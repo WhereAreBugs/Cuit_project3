@@ -19,11 +19,28 @@ selectData::selectData(QWidget *parent) :
 //                  "}");
 // 设置背景图片
 
+
+
     ui->bottom->setPixmap(QPixmap(":/images/6.png"));
     ui->bottom->setScaledContents(true);
+    ui->exitButton->setStyleSheet("QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
     checkChecker = new QTimer(this);
     checkChecker->setInterval(50);
     connect(checkChecker, &QTimer::timeout, this, &selectData::checkFuncs);
+    connect(ui->exitButton, &QPushButton::clicked, this, &selectData::close);
     checkChecker->start();
     //初始化数据库
     pDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));

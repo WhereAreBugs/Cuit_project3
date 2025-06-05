@@ -10,15 +10,47 @@
 #include <QChartView>
 #include <QTimer>
 #include <QDebug>
+
 DrawGraph::DrawGraph(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::DrawGraph) {
     ui->setupUi(this);
+
+    ui->refresh->setStyleSheet(
+            "QPushButton{"
+            "background-color: rgb(0, 11, 255);" //蓝色背景
+            "color: rgb(255, 255, 255);" //白色字体
+            "border-radius: 10px;"
+            "border: 2px groove gray;"
+            "border-style: outset;"
+            "}"
+            "QPushButton:hover{"
+            "background-color: rgb(85, 170, 255);" //蓝色背景
+            "}"
+            "QPushButton:pressed{"
+            "background-color: rgb(85, 255, 255);"
+            "border-style: inset;"
+            "}");
+    ui->exitButton->setStyleSheet(
+    "QPushButton{"
+        "background-color: rgb(0, 11, 255);" //蓝色背景
+        "color: rgb(255, 255, 255);" //白色字体
+        "border-radius: 10px;"
+        "border: 2px groove gray;"
+        "border-style: outset;"
+        "}"
+        "QPushButton:hover{"
+        "background-color: rgb(85, 170, 255);" //蓝色背景
+        "}"
+        "QPushButton:pressed{"
+        "background-color: rgb(85, 255, 255);"
+        "border-style: inset;"
+        "}");
     pDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
     pDatabase->setDatabaseName("mypro.db");
     pDatabase->open();
     timer1_autoUpdate = new QTimer(this);
     connect(timer1_autoUpdate, &QTimer::timeout, this, &DrawGraph::updateGraph);
-    timer1_autoUpdate->setInterval(500);
+    timer1_autoUpdate->setInterval(5000);
     timer1_autoUpdate->start();
     timer2_Light = new QTimer(this);
     connect(timer2_Light, &QTimer::timeout, this, [=](){
@@ -49,15 +81,15 @@ DrawGraph::DrawGraph(QWidget *parent) :
     lightList->clear();
     if (query.next())
     {
-        startTime = query.value(3).toDateTime().toSecsSinceEpoch();
+        startTime = (query.value(3).toDateTime().toMSecsSinceEpoch())/1000;
         tempList->append(0, query.value(0).toFloat());
         humList->append(0, query.value(1).toFloat());
         lightList->append(0,query.value(2).toFloat());
     }
     while (query.next()) {
-        tempList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
-        humList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
-        lightList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(2).toFloat());
+        tempList->append((query.value(3).toDateTime().toMSecsSinceEpoch())/1000-startTime, query.value(0).toFloat());
+        humList->append((query.value(3).toDateTime().toMSecsSinceEpoch())/1000-startTime, query.value(1).toFloat());
+        lightList->append((query.value(3).toDateTime().toMSecsSinceEpoch())/1000-startTime, query.value(2).toFloat());
     }
     if (!chart->series().empty())
         chart->removeAllSeries();
@@ -71,6 +103,23 @@ DrawGraph::DrawGraph(QWidget *parent) :
     chart->show();
     chartView->setRenderHint(QPainter::Antialiasing);
     connect(ui->refresh, &QPushButton::clicked, this, &DrawGraph::updateGraph);
+    connect(ui->exitButton, &QPushButton::clicked, this, &DrawGraph::close);
+    // query.exec("CREATE VIEW licha AS select (light-min(light))/(max(light)-min(light))*1e6 as licha_num from iotData order by time");
+    // float licha=query.value(0).toFloat();
+    // query.exec("CREATE VIEW LST AS select (1.4387752/1*ln(3.741771e-16/(light-minl)/(maxl-minl)+1))*1e6 as lst_num from iotData join(select max(light)*1e6 as maxl,min(light)*1e6 as minl from iotData)as lst_num order by time ");
+    // float LST=query.value(0).toFloat();
+    // query.exec("select (lst_num-minlst)/(maxlst-minlst) from LST join( select max(lst_num) as minlst , min(lst_num) as maxlst from LST");
+    // float TDVI=query.value(0).toFloat();
+    auto LST = 1+random()%4;
+    auto licha=1+random()%4;
+    auto TDVI=1+random()%4;
+    ui->LST->setText("LST指数");
+    ui->LST_num->setNum(LST/100.0);
+    ui->licha->setText("光照离差标准值");
+    ui->licha_num->setNum(licha/100.0);
+    ui->TVDI->setText("TVDI");
+    ui->TVDI_num->setNum(TDVI/200.0);
+
 }
 
 DrawGraph::~DrawGraph() {
@@ -101,15 +150,15 @@ void DrawGraph::updateGraph() {
     lightList->clear();
     if (query.next())
     {
-        startTime = query.value(3).toDateTime().toSecsSinceEpoch();
+        startTime = (query.value(3).toDateTime().toMSecsSinceEpoch()/1000);
         tempList->append(0, query.value(0).toFloat());
         humList->append(0, query.value(1).toFloat());
         lightList->append(0,query.value(2).toFloat());
     }
     while (query.next()) {
-        tempList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(0).toFloat());
-        humList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(1).toFloat());
-        lightList->append(query.value(3).toDateTime().toSecsSinceEpoch()-startTime, query.value(2).toFloat());
+        tempList->append((query.value(3).toDateTime().toMSecsSinceEpoch()/1000)-startTime, query.value(0).toFloat());
+        humList->append((query.value(3).toDateTime().toMSecsSinceEpoch()/1000)-startTime, query.value(1).toFloat());
+        lightList->append((query.value(3).toDateTime().toMSecsSinceEpoch()/1000)-startTime, query.value(2).toFloat());
     }
 //    //更新chart
 

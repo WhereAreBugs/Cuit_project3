@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>678</width>
-    <height>720</height>
+    <width>800</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,24 +17,29 @@
    <widget class="QLabel" name="title">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>10</y>
+      <x>310</x>
+      <y>0</y>
       <width>181</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>开发者测试</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="showPaimeng">
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>480</y>
+      <y>570</y>
       <width>181</width>
       <height>161</height>
      </rect>
@@ -46,10 +51,10 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>120</y>
-      <width>581</width>
-      <height>91</height>
+      <x>210</x>
+      <y>30</y>
+      <width>571</width>
+      <height>61</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -61,6 +66,11 @@
          <height>20</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>随机数生成:</string>
        </property>
@@ -70,6 +80,11 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QRadioButton" name="randMode_NorMal">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>正常随机</string>
          </property>
@@ -83,6 +98,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="randModeAllLow">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>全部数值过低</string>
          </property>
@@ -93,6 +113,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="randModeAllOK">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>全部正常值</string>
          </property>
@@ -103,6 +128,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="randModeALLHIGH">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>全部过高</string>
          </property>
@@ -113,6 +143,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="radioButton">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>自定义</string>
          </property>
@@ -129,7 +164,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>260</y>
+      <y>150</y>
       <width>581</width>
       <height>91</height>
      </rect>
@@ -143,6 +178,11 @@
          <height>20</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>自动数据记录选项</string>
        </property>
@@ -152,6 +192,11 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QRadioButton" name="randMode_NorMal_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>关闭</string>
          </property>
@@ -165,6 +210,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="randModeAllLow_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>当出现低温</string>
          </property>
@@ -175,6 +225,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="randModeAllOK_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>当出现高温</string>
          </property>
@@ -185,6 +240,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="randModeALLHIGH_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>出现非正常温度</string>
          </property>
@@ -195,6 +255,11 @@
        </item>
        <item>
         <widget class="QRadioButton" name="radioButton_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>全部记录</string>
          </property>
@@ -211,7 +276,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>340</y>
+      <y>240</y>
       <width>256</width>
       <height>23</height>
      </rect>
@@ -219,6 +284,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="dataSourceLable">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>数据源更新间隔</string>
        </property>
@@ -226,6 +296,11 @@
      </item>
      <item>
       <widget class="QLineEdit" name="datasourceInput">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="placeholderText">
         <string>请输入新的时间</string>
        </property>
@@ -233,6 +308,11 @@
      </item>
      <item>
       <widget class="QLabel" name="datasourceOB">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>ms</string>
        </property>
@@ -243,8 +323,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>210</y>
+      <x>40</x>
+      <y>100</y>
       <width>540</width>
       <height>49</height>
      </rect>
@@ -254,6 +334,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>湿度最小</string>
          </property>
@@ -261,6 +346,11 @@
        </item>
        <item>
         <widget class="QLineEdit" name="humMinCus">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>0</string>
          </property>
@@ -272,6 +362,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
         <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>湿度最大</string>
          </property>
@@ -279,6 +374,11 @@
        </item>
        <item>
         <widget class="QLineEdit" name="humMaxCus">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>100</string>
          </property>
@@ -290,6 +390,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QLabel" name="label_5">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>温度最小</string>
          </property>
@@ -297,6 +402,11 @@
        </item>
        <item>
         <widget class="QLineEdit" name="tmpMinCus">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>0</string>
          </property>
@@ -308,6 +418,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QLabel" name="label_6">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>温度最大</string>
          </property>
@@ -315,6 +430,11 @@
        </item>
        <item>
         <widget class="QLineEdit" name="tmpMaxCus">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>40</string>
          </property>
@@ -327,11 +447,16 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>50</y>
+      <x>50</x>
+      <y>40</y>
       <width>58</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>数据源:</string>
@@ -341,14 +466,19 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>70</y>
-      <width>401</width>
+      <y>60</y>
+      <width>151</width>
       <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QRadioButton" name="isSerial">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>串口</string>
        </property>
@@ -362,6 +492,11 @@
      </item>
      <item>
       <widget class="QRadioButton" name="isRandom">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>随机数</string>
        </property>
@@ -376,7 +511,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>370</y>
+      <y>270</y>
       <width>551</width>
       <height>91</height>
      </rect>
@@ -390,6 +525,11 @@
          <height>15</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>阈值设定</string>
        </property>
@@ -401,6 +541,11 @@
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>温度过低</string>
            </property>
@@ -408,6 +553,11 @@
          </item>
          <item>
           <widget class="QLabel" name="label_10">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>温度过高</string>
            </property>
@@ -415,6 +565,11 @@
          </item>
          <item>
           <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>湿度过低</string>
            </property>
@@ -422,6 +577,11 @@
          </item>
          <item>
           <widget class="QLabel" name="label_12">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>湿度过高</string>
            </property>
@@ -432,16 +592,40 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QSpinBox" name="tempLow"/>
+          <widget class="QSpinBox" name="tempLow">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="tempHigh"/>
+          <widget class="QSpinBox" name="tempHigh">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="humLow"/>
+          <widget class="QSpinBox" name="humLow">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="humHigh"/>
+          <widget class="QSpinBox" name="humHigh">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -449,13 +633,116 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="layoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>360</y>
+      <width>581</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_9">
+     <item>
+      <widget class="QLabel" name="label_13">
+       <property name="maximumSize">
+        <size>
+         <width>140</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>报警选项</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QRadioButton" name="alarmOff">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>关闭</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="alarmOnLow">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>当出现低温</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="alarmOnHigh">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>当出现高温</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="alarmOnAll">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>出现非正常温度</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>返回</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>678</width>
+     <width>800</width>
      <height>24</height>
     </rect>
    </property>
@@ -465,8 +752,8 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup"/>
   <buttongroup name="autoSaveSelec"/>
-  <buttongroup name="buttonGroup_2"/>
  </buttongroups>
 </ui>

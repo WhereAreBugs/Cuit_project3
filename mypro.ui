@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>876</width>
-    <height>670</height>
+    <width>800</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,21 +23,21 @@
       <x>40</x>
       <y>30</y>
       <width>811</width>
-      <height>571</height>
+      <height>441</height>
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::Shape::StyledPanel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+     <enum>QFrame::Shadow::Raised</enum>
     </property>
     <widget class="QLabel" name="WelcomeLable">
      <property name="geometry">
       <rect>
-       <x>230</x>
+       <x>160</x>
        <y>20</y>
-       <width>291</width>
+       <width>441</width>
        <height>51</height>
       </rect>
      </property>
@@ -45,7 +45,7 @@
       <string>欢迎使用智慧农田数据查询系统</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
@@ -54,25 +54,30 @@
        <x>20</x>
        <y>90</y>
        <width>421</width>
-       <height>411</height>
+       <height>271</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+        <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
          <widget class="QLabel" name="timeBox">
           <property name="maximumSize">
            <size>
-            <width>50</width>
+            <width>80</width>
             <height>20</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>当前时间</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -95,7 +100,7 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item alignment="Qt::AlignLeft">
+          <item alignment="Qt::AlignmentFlag::AlignLeft">
            <widget class="QLabel" name="dataShow_lable">
             <property name="maximumSize">
              <size>
@@ -103,11 +108,16 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>数据展示</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignCenter</set>
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -115,9 +125,14 @@
            <widget class="QPushButton" name="recordButton">
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>180</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>手动记录当前数据</string>
@@ -137,9 +152,9 @@
      <property name="geometry">
       <rect>
        <x>470</x>
-       <y>90</y>
+       <y>80</y>
        <width>261</width>
-       <height>411</height>
+       <height>311</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -157,7 +172,7 @@
            <string>温度</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -180,7 +195,7 @@
            <string>湿度</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -203,58 +218,12 @@
            <string>亮度</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLCDNumber" name="light_display"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="adc1_lable">
-          <property name="maximumSize">
-           <size>
-            <width>60</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>模拟量1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLCDNumber" name="adc1_display"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QLabel" name="adc2_lable">
-          <property name="maximumSize">
-           <size>
-            <width>60</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>模拟量2</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLCDNumber" name="adc2_display"/>
         </item>
        </layout>
       </item>
@@ -272,26 +241,36 @@
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item alignment="Qt::AlignRight">
+        <item alignment="Qt::AlignmentFlag::AlignRight">
          <widget class="QLabel" name="databaseLable">
           <property name="maximumSize">
            <size>
-            <width>40</width>
+            <width>80</width>
             <height>40</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>数据库</string>
           </property>
          </widget>
         </item>
-        <item alignment="Qt::AlignRight">
+        <item alignment="Qt::AlignmentFlag::AlignRight">
          <widget class="QLabel" name="dataSourceLable">
           <property name="maximumSize">
            <size>
-            <width>40</width>
+            <width>80</width>
             <height>40</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>数据源</string>
@@ -302,7 +281,7 @@
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item alignment="Qt::AlignLeft">
+        <item alignment="Qt::AlignmentFlag::AlignLeft">
          <widget class="QLabel" name="light_SQL">
           <property name="maximumSize">
            <size>
@@ -310,21 +289,31 @@
             <height>20</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>1</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item alignment="Qt::AlignLeft">
+        <item alignment="Qt::AlignmentFlag::AlignLeft">
          <widget class="QLabel" name="light_source">
           <property name="maximumSize">
            <size>
             <width>20</width>
             <height>20</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>1</string>
@@ -339,7 +328,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>500</y>
+       <y>360</y>
        <width>301</width>
        <height>31</height>
       </rect>
@@ -349,9 +338,14 @@
        <widget class="QLabel" name="serialText">
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>80</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>当前串口:</string>
@@ -360,6 +354,11 @@
       </item>
       <item>
        <widget class="QLabel" name="serialDisplay">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Unkown</string>
         </property>
@@ -371,7 +370,7 @@
      <property name="geometry">
       <rect>
        <x>320</x>
-       <y>500</y>
+       <y>360</y>
        <width>121</width>
        <height>31</height>
       </rect>
@@ -381,9 +380,14 @@
        <widget class="QLabel" name="ID_text">
         <property name="maximumSize">
          <size>
-          <width>20</width>
+          <width>40</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>ID:</string>
@@ -392,6 +396,11 @@
       </item>
       <item>
        <widget class="QLabel" name="ID_Display">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Unkown</string>
         </property>
@@ -408,6 +417,11 @@
        <height>21</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>状态未知</string>
      </property>
@@ -422,6 +436,11 @@
       <height>32</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>设置界面</string>
     </property>
@@ -434,6 +453,11 @@
       <width>100</width>
       <height>32</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>查询数据库</string>
@@ -448,6 +472,11 @@
       <height>32</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>删除所选数据</string>
     </property>
@@ -460,6 +489,11 @@
       <width>100</width>
       <height>32</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>筛选数据</string>
@@ -474,6 +508,11 @@
       <height>32</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>绘制曲线图</string>
     </property>
@@ -487,6 +526,11 @@
       <height>32</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>设备控制</string>
     </property>
@@ -497,7 +541,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>876</width>
+     <width>800</width>
      <height>24</height>
     </rect>
    </property>

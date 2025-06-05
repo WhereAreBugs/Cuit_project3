@@ -30,7 +30,9 @@ public:
     float getHumHighLimit() const{return hum_high_limit;}
     float getTmpLowLimit() const{return tmp_low_limit;}
     float getTmpHighLimit() const{return tmp_high_limit;}
-
+    bool getAlarmOnLow();
+    bool getAlarmOnHigh();
+    bool getAlarmOnAll();
     uint64_t getDataSrcUpdateTimeMs() const{return dataSrcUpdateTimeMs;}
 public:
     enum AutoSaveMode{
