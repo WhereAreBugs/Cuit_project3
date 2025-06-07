@@ -32,6 +32,17 @@ set(PROJECT_SOURCES
         devicecontroler.cpp
         devicecontroler.h
         devicecontroler.ui
+        logindialog.cpp
+        logindialog.h
+        logindialog.ui
+        changepassworddialog.cpp
+        changepassworddialog.h
+        changepassworddialog.ui
+        databasemanager.cpp
+        databasemanager.h
+        virtualkeyboard.cpp
+        virtualkeyboard.ui
+        virtualkeyboard.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

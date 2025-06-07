@@ -28,7 +28,7 @@ private:
     Ui::deviceControler *ui;
 public:
     void slots on_fanOnoff();
-
+    bool lightStatus = false;
     void slots on_hexOnoff();
 
     void slots on_ledOnoff();
